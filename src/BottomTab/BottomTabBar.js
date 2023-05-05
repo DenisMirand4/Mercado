@@ -15,6 +15,7 @@ const BottomTabBar = () => {
         </Tab.Navigator>
     );
 }
+const teste = 2;
 
 export default BottomTabBar;
 
