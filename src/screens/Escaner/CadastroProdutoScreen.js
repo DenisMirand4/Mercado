@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 
-export default function CadastroProdutoScreen() {
+export default function CadastroProdutoScreen({ navigation }) {
     console.log('CadastroProdutoScreen');
     return (
         <View>

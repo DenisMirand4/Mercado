@@ -13,6 +13,14 @@ import CadastroProdutoScreen from './src/screens/Escaner/CadastroProdutoScreen';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
+function EscanerStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="EscanerScreen" component={EscanerScreen} />
+      <Stack.Screen name="CadastroProduto" component={CadastroProdutoScreen} />
+    </Stack.Navigator>
+  );
+}
 
 export default function App() {
   return (
@@ -22,7 +30,7 @@ export default function App() {
       <NavigationContainer>
         <Tab.Navigator>
             <Tab.Screen name="Lista de Compras" component={ListaDeComprasScreen} />
-            <Tab.Screen name="Escaner" component={EscanerScreen} />
+            <Tab.Screen name="Escaner" component={EscanerStack} />
             <Tab.Screen name="Estoque" component={EstoqueScreen} />
         </Tab.Navigator>
       </NavigationContainer>

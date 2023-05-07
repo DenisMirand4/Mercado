@@ -9,7 +9,7 @@ import db from '../../data/database';
 
 
 
-export default function EscanerScreen() {
+export default function EscanerScreen({ navigation }) {
   // const CadastroProdutoScreen = () => { props.navigation.navigate('CadastroProduto')
 
   const [hasPermission, setHasPermission] = useState(null);
@@ -46,21 +46,16 @@ export default function EscanerScreen() {
   };
 
 
-  const addProduto = (barcodeData,nome,quantidade) => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        'INSERT INTO produtos (id, nome, quantidade) VALUES (?, ?, ?, ?)',
-        [barcodeData, nome, quantidade],
-        (_, { rows }) => {
-          console.log(JSON.stringify(rows));
-        },
-        (_, error) => {
-          console.log(error);
-        }
-      );
-    });
-    console.log('Item adicionado ao banco de dados');
+  const addProduto = (barcodeData) => {
+    console.log('addProduto');
+    console.log(barcodeData);
     setScanned(false);
+    return(
+      <View>
+        <Text>CadastroProdutoScreen</Text>
+      </View>
+
+    )
   };
 
 
@@ -94,13 +89,12 @@ export default function EscanerScreen() {
           },
           {
             text: 'Sim',
-            onPress: () => navigation.navigate('CadastroProduto', { barcode: data }),
+            onPress: () => navigation.navigate('CadastroProduto'),
           },
         ],  
         { cancelable: false }
       );
     }
-    setScanned(false);
   };
 
   const searchItemInDatabase = async (barcodeData) => {
@@ -145,7 +139,6 @@ export default function EscanerScreen() {
       )}
       <View style={styles.background}/>
       <View style={styles.mira} />
-
     </View>
   );
 }
