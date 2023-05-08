@@ -22,6 +22,17 @@ function EscanerStack() {
   );
 }
 
+function EstoqueStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="EstoqueScreen" component={EstoqueScreen} />
+      <Stack.Screen name="EscanerScreen" component={EscanerScreen} />
+      <Stack.Screen name="CadastroProduto" component={CadastroProdutoScreen} />
+
+    </Stack.Navigator>
+  );
+}
+
 export default function App() {
   return (
     <View style={styles.container}>
@@ -30,8 +41,8 @@ export default function App() {
       <NavigationContainer>
         <Tab.Navigator>
             <Tab.Screen name="Lista de Compras" component={ListaDeComprasScreen} />
-            <Tab.Screen name="Escaner" component={EscanerStack} />
-            <Tab.Screen name="Estoque" component={EstoqueScreen} />
+            <Tab.Screen name="Escaner" component={EscanerStack} options={{ headerShown: false }}/>
+            <Tab.Screen name="Estoque" component={EstoqueStack}/>
         </Tab.Navigator>
       </NavigationContainer>
     </View>

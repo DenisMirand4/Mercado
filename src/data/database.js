@@ -23,7 +23,7 @@ console.log('Database listas created');
 
 db.transaction(tx => {
     tx.executeSql(
-        'CREATE TABLE IF NOT EXISTS estoque (id TEXT PRIMARY KEY NOT NULL, nome TEXT NOT NULL, quantidade TEXT NOT NULL);'
+        'CREATE TABLE IF NOT EXISTS estoque (id TEXT PRIMARY KEY NOT NULL, nome TEXT NOT NULL, quantidade TEXT);'
     );
 });
 console.log('Database estoque created');

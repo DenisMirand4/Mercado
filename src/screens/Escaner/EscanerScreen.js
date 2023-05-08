@@ -2,37 +2,27 @@ import React, { useState, useEffect, Component } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Alert, Dimensions, ImageBackground } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import db from '../../data/database';
-
-// import { useNavigation } from '@react-navigation/native';
-// import { InterfaceOrientation } from 'react-native-reanimated';
-
-
-
+import { Button } from 'react-native-elements';
+import { useIsFocused } from '@react-navigation/native';
 
 export default function EscanerScreen({ navigation }) {
-  // const CadastroProdutoScreen = () => { props.navigation.navigate('CadastroProduto')
-
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [barcodeData, setBarcodeData] = useState('');
-  // const navigation = useNavigation();
-
+  const isFocused = useIsFocused();
   useEffect(() => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
       setHasPermission(status === 'granted');
     })();
+    // setScanned(false);
   }, []);
-
-  // const CadastroProduto = (barcode) => {
-  //   navigation.navigate('CadastroProduto', { barcode: barcode });
-  // }
 
   const addEstoque = (item) => {
     db.transaction((tx) => {
       tx.executeSql(
         'INSERT INTO estoque (id, nome, quantidade) VALUES (?, ?, ?, ?)',
-        [item.id, item.nome, item.quantidade],
+        [item.id, item.nome, 1],
         (_, { rows }) => {
           console.log(JSON.stringify(rows));
         },
@@ -45,20 +35,6 @@ export default function EscanerScreen({ navigation }) {
     setScanned(false);
   };
 
-
-  const addProduto = (barcodeData) => {
-    console.log('addProduto');
-    console.log(barcodeData);
-    setScanned(false);
-    return(
-      <View>
-        <Text>CadastroProdutoScreen</Text>
-      </View>
-
-    )
-  };
-
-
   const handleBarCodeScanned = async ({ type, data }) => {
     setScanned(true);
     setBarcodeData(data);
@@ -66,17 +42,17 @@ export default function EscanerScreen({ navigation }) {
 
     if (item) {
       Alert.alert('Item encontrado!', `Gostaria de adicionar o ${item.name} ao seu estoque?`),
-      [
-        {
-          text: 'Não',
-          onPress: () => setScanned(false),
-          style: 'cancel',
-        },
-        {
-          text: 'Sim',
-          onPress: () => addEstoque(item),
-        }
-      ]
+        [
+          {
+            text: 'Não',
+            onPress: () => setScanned(false),
+            style: 'cancel',
+          },
+          {
+            text: 'Sim',
+            onPress: () => addEstoque(item),
+          }
+        ]
     } else {
       Alert.alert(
         'Item não encontrado',
@@ -89,9 +65,12 @@ export default function EscanerScreen({ navigation }) {
           },
           {
             text: 'Sim',
-            onPress: () => navigation.navigate('CadastroProduto'),
+            onPress: () => {
+              setScanned(false);
+              navigation.navigate('CadastroProduto', { barcode: data });
+            },
           },
-        ],  
+        ],
         { cancelable: false }
       );
     }
@@ -103,7 +82,7 @@ export default function EscanerScreen({ navigation }) {
         'SELECT * FROM produtos WHERE codigoDeBarras = ?',
         [barcodeData],
         (_, { rows }) => {
-          console.log(JSON.stringify(rows));
+          // console.log(JSON.stringify(rows));
           return rows._array[0];
         },
         (_, error) => {
@@ -122,13 +101,15 @@ export default function EscanerScreen({ navigation }) {
   }
 
 
-  
+
   return (
     <View style={styles.container}>
-      <BarCodeScanner
-        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        style={StyleSheet.absoluteFillObject}
-      />
+      {isFocused ? (
+        <BarCodeScanner
+          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+          style={StyleSheet.absoluteFillObject}
+        />
+      ) : null}
       {scanned && (
         <TouchableOpacity
           style={styles.button}
@@ -137,7 +118,7 @@ export default function EscanerScreen({ navigation }) {
           <Text style={styles.buttonText}>Escanear novamente</Text>
         </TouchableOpacity>
       )}
-      <View style={styles.background}/>
+      <View style={styles.background} />
       <View style={styles.mira} />
     </View>
   );
@@ -174,7 +155,7 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     borderColor: 'black',
     backgroundColor: 'transparent',
-    
+
   },
   background: {
     position: 'absolute',
@@ -182,6 +163,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
   },
 });

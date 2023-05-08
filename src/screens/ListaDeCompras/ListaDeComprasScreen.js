@@ -63,6 +63,7 @@ export default function ListaDeComprasScreen() {
         )});
 
     };
+    
     return (
         <View style={{ flex: 1 }}>
             <FlatList
