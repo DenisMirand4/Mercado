@@ -132,7 +132,7 @@ export default function ListaDeComprasScreen({ navigation, route }) {
                                 />
                                 <Text
                                     style={[
-                                        { marginLeft: 10 },
+                                        { marginLeft: 10, fontSize: 24, color: '#000' },
                                         item.pegou ? { textDecorationLine: 'line-through' } : null,
                                     ]}
                                 >
@@ -140,7 +140,7 @@ export default function ListaDeComprasScreen({ navigation, route }) {
                                 </Text>
                             </View>
                             {item.quantidade > 1 && (
-                                <Text style={{ marginLeft: 'auto' }}>{item.quantidade}</Text>
+                                <Text style={{marginRight: 8 , marginLeft: 'auto', fontWeight: 'bold', fontSize: 24, color: '#000' }}>{item.quantidade}</Text>
                             )}
                         </View>
                     </TouchableOpacity>
@@ -148,11 +148,9 @@ export default function ListaDeComprasScreen({ navigation, route }) {
                 keyExtractor={(item, index) => index.toString()}
                 ItemSeparatorComponent={() => <View style={{ height: 1, backgroundColor: 'gray' }} />}
             />
-            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingVertical: 10 }}>
-                <View style={{ flex: 1, paddingHorizontal: 10 }}>
-                    <Button title="Adicionar Item" onPress={() => setModalVisible(true)} />
-                </View>
-            </View>
+            <TouchableOpacity style={styles.button} onPress={() => setModalVisible(true)}>
+                <Text style={styles.buttonText}>Adicionar Item</Text>
+            </TouchableOpacity>
 
             <Modal isVisible={modalVisible} onBackdropPress={() => setModalVisible(false)}>
                 <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
@@ -191,7 +189,7 @@ export default function ListaDeComprasScreen({ navigation, route }) {
                             />
                             <View style={styles.quantityContainer}>
                                 <Text style={styles.quantityLabel}>Quantidade:</Text>
-                                <TouchableOpacity style={styles.quantityButton} onPress={() => decrementarItem(id)}>
+                                <TouchableOpacity style={styles.quantityButtonMinus} onPress={() => decrementarItem(id)}>
                                     <Text style={styles.quantityButtonText}>-</Text>
                                 </TouchableOpacity>
                                 <TextInput
@@ -200,13 +198,13 @@ export default function ListaDeComprasScreen({ navigation, route }) {
                                     value={quantidade.toString()}
                                     onChangeText={setQuantidade}
                                 />
-                                <TouchableOpacity style={styles.quantityButton} onPress={() => incrementarItem(id)}>
+                                <TouchableOpacity style={styles.quantityButtonPlus} onPress={() => incrementarItem(id)}>
                                     <Text style={styles.quantityButtonText}>+</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
                         <View style={styles.modalFooter}>
-                            <TouchableOpacity style={styles.deleteButton} onPress={() => {deletarItem(id); setModalVisible2(false)}}>
+                            <TouchableOpacity style={styles.deleteButton} onPress={() => { deletarItem(id); setModalVisible2(false) }}>
                                 <Text style={styles.deleteButtonText}>Deletar</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.saveButton} onPress={() => editarItem(id)}>
@@ -224,9 +222,10 @@ const styles = StyleSheet.create({
     modalOverlay: {
         justifyContent: 'center',
         alignItems: 'center',
+
     },
     modalContent: {
-        backgroundColor: '#fff',
+        backgroundColor: '#f5f5f5',
         borderRadius: 8,
         padding: 16,
         width: '80%',
@@ -247,6 +246,20 @@ const styles = StyleSheet.create({
         marginRight: 16,
         marginTop: 16,
     },
+    button: {
+        marginVertical: 10,
+        marginHorizontal: 20,
+        backgroundColor: '#4CAF50',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+    },
+    buttonText: {
+        fontSize: 18,
+        color: '#fff',
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
     input: {
         borderWidth: 1,
         borderRadius: 4,
@@ -262,14 +275,27 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     quantityButton: {
-        backgroundColor: '#ccc',
-        padding: 8,
-        borderRadius: 4,
+        padding: 12,
+        borderRadius: 8,
+        marginHorizontal: 4,
+    },
+    quantityButtonPlus: {
+        backgroundColor: 'green',
+        padding: 11,
+        borderRadius: 15,
+        marginHorizontal: 4,
+    },
+    quantityButtonMinus: {
+        backgroundColor: 'red',
+        padding: 11,
+        borderRadius: 15,
         marginHorizontal: 4,
     },
     quantityButtonText: {
         fontSize: 18,
+        paddingHorizontal: 4,
         fontWeight: 'bold',
+        color: 'white',
     },
     quantityInput: {
         borderWidth: 1,
@@ -314,11 +340,11 @@ const styles = StyleSheet.create({
         height: 32,
         alignItems: 'center',
         justifyContent: 'center',
-      },
-      closeButtonText: {
+    },
+    closeButtonText: {
         color: '#000',
         fontSize: 20,
-      },
+    },
 
 
 });

@@ -134,7 +134,7 @@ export default EstoqueScreen = ({ navigation }) => {
                             setModalVisible2(true);
                         }}>
                             <View>
-                                <Text style={{ fontSize: 18 }}>{parseInt(item.quantidade)} - {item.nome}</Text>
+                                <Text style={{ fontSize: 24 }}>{parseInt(item.quantidade)} - {item.nome}</Text>
                             </View>
                         </TouchableOpacity>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -169,10 +169,17 @@ export default EstoqueScreen = ({ navigation }) => {
                 <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
                     <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>Adicionar item</Text>
                     <TextInput placeholder="Nome" value={nome} onChangeText={setNome} style={{ marginBottom: 10 }} />
-                    <Button title="Adicionar" onPress={adicionarItem} />
-                    <Button title="Cancelar" onPress={() => setModalVisible(false)} />
+                    <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                        <TouchableOpacity onPress={adicionarItem} style={{ backgroundColor: 'green', padding: 10, marginRight: 10, borderRadius: 5 }}>
+                            <Text style={{ color: 'white', fontWeight: 'bold' }}>Adicionar</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => setModalVisible(false)} style={{ backgroundColor: 'red', padding: 10, borderRadius: 5 }}>
+                            <Text style={{ color: 'white', fontWeight: 'bold' }}>Cancelar</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </Modal>
+
             <Modal isVisible={modalVisible2} onBackdropPress={() => setModalVisible2(false)} >
                 <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
                     <View style={styles.quantityContainer}>
@@ -245,13 +252,13 @@ const styles = StyleSheet.create({
         marginHorizontal: 4,
     },
     quantityButtonPlus: {
-        backgroundColor: 'green',
+        backgroundColor: '#4CAF50',
         padding: 15,
         borderRadius: 15,
         marginHorizontal: 4,
     },
     quantityButtonMinus: {
-        backgroundColor: 'red',
+        backgroundColor: '#FF6961',
         padding: 15,
         borderRadius: 15,
         marginHorizontal: 4,
@@ -270,7 +277,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     saveButton: {
-        backgroundColor: 'blue',
+        backgroundColor: '#008000',
         paddingVertical: 12,
         borderRadius: 8,
         marginTop: 16,
