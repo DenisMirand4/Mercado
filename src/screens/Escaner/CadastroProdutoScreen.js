@@ -4,7 +4,7 @@ import db from "../../data/database";
 import UUID from 'react-native-uuid';
 
 export default function CadastroProdutoScreen({ navigation, route }) {
-    const { barcode } = route.params;
+    const { barcode} = route.params;
     const [nome, setNome] = useState("");
     console.log('CadastroProdutoScreen');
     console.log(barcode);

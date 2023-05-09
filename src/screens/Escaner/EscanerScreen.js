@@ -20,7 +20,7 @@ export default function EscanerScreen({ navigation }) {
   const addEstoque = (item) => {
     db.transaction((tx) => {
       tx.executeSql(
-        'INSERT INTO estoque (id, nome, quantidade) VALUES (?, ?, ?, ?)',
+        'INSERT INTO estoque (id, nome, quantidade) VALUES (?, ?, ?)',
         [item.id, item.nome, 1],
         (_, { rows }) => {
           console.log(JSON.stringify(rows));
@@ -51,7 +51,7 @@ export default function EscanerScreen({ navigation }) {
           },
           {
             text: 'Sim',
-            onPress: () => {setScanned(false); addEstoque(item)},
+            onPress: () => {Alert.alert('Item adicionado!');navigation.navigate('EstoqueScreen'); setScanned(false); addEstoque(item)},
           }
         ]
       );
@@ -68,7 +68,6 @@ export default function EscanerScreen({ navigation }) {
           {
             text: 'Sim',
             onPress: () => {
-              setScanned(false);
               navigation.navigate('CadastroProduto', { barcode: data });
             },
           },

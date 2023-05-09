@@ -85,7 +85,10 @@ export default function ListasDeListaDeCompras({ navigation }) {
                 )}
                 keyExtractor={item => item.id}
             />
-            <Button style={styles.button} title="Criar Lista" onPress={() => setModalVisible(true)} />
+            <TouchableOpacity style={styles.button} onPress={() => setModalVisible(true)}>
+                <Text style={styles.buttonText}>Criar Lista</Text>
+            </TouchableOpacity>
+
             <Modal isVisible={modalVisible}>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10, width: '80%' }}>
@@ -116,7 +119,18 @@ const styles = StyleSheet.create({
         backgroundColor: '#f5f5f5',
     },
     button: {
-        margin: 10,
+        marginVertical: 10,
+        marginHorizontal: 20,
+        backgroundColor: '#4CAF50',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+    },
+    buttonText: {
+        fontSize: 18,
+        color: '#fff',
+        fontWeight: 'bold',
+        textAlign: 'center',
     },
     touchableOpacity: {
         flex: 1,
