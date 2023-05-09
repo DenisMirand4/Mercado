@@ -55,7 +55,7 @@ export default function ListasDeListaDeCompras({ navigation }) {
     };
 
     const handleNavegation = (id) => {
-        navigation.navigate('ListaDeCompras', { idLista: id });
+        navigation.navigate('Lista de Compra', { idLista: id });
     };
 
 

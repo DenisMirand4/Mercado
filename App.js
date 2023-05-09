@@ -16,8 +16,8 @@ const Stack = createStackNavigator();
 function EscanerStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="EscanerScreen" component={EscanerScreen} />
-      <Stack.Screen name="CadastroProduto" component={CadastroProdutoScreen} />
+      <Stack.Screen name="EscanerScreen" component={EscanerScreen} options={{headerShown:false}} />
+      <Stack.Screen name="CadastroProduto" component={CadastroProdutoScreen} options={{headerTitle:''}} />
     </Stack.Navigator>
   );
 }
@@ -25,8 +25,8 @@ function EscanerStack() {
 function EstoqueStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="EstoqueScreen" component={EstoqueScreen} />
-      <Stack.Screen name="EscanerScreen" component={EscanerScreen} />
+      <Stack.Screen name="EstoqueScreen" component={EstoqueScreen} options={{headerTitle:'Estoque'}} />
+      <Stack.Screen name="EscanerScreen" component={EscanerScreen} options={{headerTitle:''}} />
       <Stack.Screen name="CadastroProduto" component={CadastroProdutoScreen} />
 
     </Stack.Navigator>
@@ -36,8 +36,8 @@ function EstoqueStack() {
 function ListaStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="ListasDeListaDeCompras" component={ListasDeListaDeCompras} />
-      <Stack.Screen name="ListaDeCompras" component={ListaDeComprasScreen} />
+      <Stack.Screen name="Listas de Compras" component={ListasDeListaDeCompras} />
+      <Stack.Screen name="Lista de Compra" component={ListaDeComprasScreen} />
     </Stack.Navigator>
   );
 }
@@ -45,7 +45,6 @@ function ListaStack() {
 export default function App() {
   return (
     <View style={styles.container}>
-      {/* <Header /> */}
       <StatusBar style="auto" />
       <NavigationContainer>
         <Tab.Navigator>
