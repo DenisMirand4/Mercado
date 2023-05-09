@@ -15,7 +15,6 @@ export default function EscanerScreen({ navigation }) {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
       setHasPermission(status === 'granted');
     })();
-    // setScanned(false);
   }, []);
 
   const addEstoque = (item) => {
@@ -38,10 +37,12 @@ export default function EscanerScreen({ navigation }) {
   const handleBarCodeScanned = async ({ type, data }) => {
     setScanned(true);
     setBarcodeData(data);
+    console.log(`Bar code with type ${type} and data ${data} has been scanned!`);
     const item = await searchItemInDatabase(data);
+    console.log(item);
 
     if (item) {
-      Alert.alert('Item encontrado!', `Gostaria de adicionar o ${item.name} ao seu estoque?`),
+      Alert.alert('Item encontrado!', `Gostaria de adicionar o ${item.nome} ao seu estoque?`,
         [
           {
             text: 'Não',
@@ -50,9 +51,10 @@ export default function EscanerScreen({ navigation }) {
           },
           {
             text: 'Sim',
-            onPress: () => addEstoque(item),
+            onPress: () => {setScanned(false); addEstoque(item)},
           }
         ]
+      );
     } else {
       Alert.alert(
         'Item não encontrado',
@@ -76,21 +78,37 @@ export default function EscanerScreen({ navigation }) {
     }
   };
 
+  // const searchItemInDatabase = async (barcodeData) => {
+  //   db.transaction((tx) => {
+  //     tx.executeSql(
+  //       'SELECT * FROM produtos WHERE codigoDeBarras = ?',
+  //       [barcodeData],
+  //       (_, { rows }) => {
+  //         // console.log(JSON.stringify(rows));
+  //         return rows._array[0];
+  //       },
+  //       (_, error) => {
+  //         console.log(error);
+  //       }
+  //     );
+  //   });
+  //   return null;
+  // };
   const searchItemInDatabase = async (barcodeData) => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        'SELECT * FROM produtos WHERE codigoDeBarras = ?',
-        [barcodeData],
-        (_, { rows }) => {
-          // console.log(JSON.stringify(rows));
-          return rows._array[0];
-        },
-        (_, error) => {
-          console.log(error);
-        }
-      );
+    return new Promise((resolve, reject) => {
+      db.transaction((tx) => {
+        tx.executeSql(
+          'SELECT * FROM produtos WHERE codigoDeBarras = ?',
+          [barcodeData],
+          (_, { rows }) => {
+            resolve(rows._array[0]);
+          },
+          (_, error) => {
+            reject(error);
+          }
+        );
+      });
     });
-    return null;
   };
 
   if (hasPermission === null) {
@@ -100,24 +118,15 @@ export default function EscanerScreen({ navigation }) {
     return <Text>Sem acesso à câmera.</Text>;
   }
 
-
-
   return (
+    
     <View style={styles.container}>
       {isFocused ? (
         <BarCodeScanner
-          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+          onBarCodeScanned={scanned ? setScanned(false) : handleBarCodeScanned}
           style={StyleSheet.absoluteFillObject}
         />
       ) : null}
-      {scanned && (
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => setScanned(false)}
-        >
-          <Text style={styles.buttonText}>Escanear novamente</Text>
-        </TouchableOpacity>
-      )}
       <View style={styles.background} />
       <View style={styles.mira} />
     </View>
