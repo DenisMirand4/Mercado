@@ -90,21 +90,37 @@ export default function ListasDeListaDeCompras({ navigation }) {
             </TouchableOpacity>
 
             <Modal isVisible={modalVisible}>
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10, width: '80%' }}>
-                        <Text style={{ fontSize: 18 }}>Nome da Lista</Text>
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <View style={styles.header}>
+                            <Text style={styles.title}>Nome da Lista</Text>
+                            <TouchableOpacity
+                                style={styles.closeIcon}
+                                onPress={() => setModalVisible(false)}
+                            >
+                                <Text style={{ color: '#000', fontSize: 20, }}>X</Text>
+                            </TouchableOpacity>
+                        </View>
                         <TextInput
-                            style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                            style={{
+                                height: 40,
+                                borderColor: 'gray',
+                                borderWidth: 1,
+                                borderRadius: 5,
+                                paddingHorizontal: 10,
+                                paddingVertical: 5,
+                                fontSize: 16,
+                            }}
                             onChangeText={text => setNome(text)}
                             value={nome}
                         />
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 10 }}>
-                            <Button title="Cancelar" onPress={() => setModalVisible(false)} />
+                            <Button title="Cancelar" onPress={() => setModalVisible(false)} color={styles.cancelButton.color} />
                             <Button title="Criar" onPress={() => {
                                 criarLista(nome);
                                 setModalVisible(false);
                                 pegarListas();
-                            }} />
+                            }} color={styles.createButton.color} />
                         </View>
                     </View>
                 </View>
@@ -143,7 +159,48 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1.5,
         borderBottomColor: '#ccc',
         paddingVertical: 10,
-    }
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modalContent: {
+        backgroundColor: 'white',
+        padding: 20,
+        borderRadius: 10,
+        width: '80%',
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    title: {
+        fontSize: 18,
+    },
+    closeIcon: {
+        position: 'absolute',
+        top: -10,
+        right: -10,
+        backgroundColor: '#ccc',
+        borderRadius: 16,
+        width: 32,
+        height: 32,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    cancelButton: {
+        color: 'red',
+    },
+    createButton: {
+        color: 'green',
+    },
+    inputField: {
+        height: 40,
+        borderColor: 'gray',
+        borderWidth: 1,
+    },
 
 
 });
